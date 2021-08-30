@@ -10,7 +10,12 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import os
- 
+import signal
+#funcion para salir del True
+def sig_handler(sig, frame):
+ print("\n\n[*] exinting...\n") 
+ sys.exit(0)
+signal.signal(signal.SIGINT, sig_handler)
 # Creamos el Bucle infinito
 while True:
  
@@ -22,7 +27,7 @@ while True:
  data = r.text
  
  # Creamos el objeto soup y le pasamos lo capturado con request
- soup = BeautifulSoup(data, 'lxml')
+ soup = BeautifulSoup(data, 'html.parser')
  
  # Buscamos el div para sacar los grados
  temp = soup.find_all('div', class_="h2")
@@ -37,5 +42,3 @@ while True:
  # Tiempo en segundos para ejecutarse nuevamente
  time.sleep(15)
   
- # Boramos los datos viejos, para Windows es "cls"
- os.system("clear")
